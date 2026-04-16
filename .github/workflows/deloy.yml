@@ -1,0 +1,24 @@
+name: Deploy IIS PHP - thuong-shop
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy MAIN to IIS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASS }}
+          script: |
+            powershell -Command "
+              cd 'C:\thuong\PHPFashionWeb-main';
+              git fetch origin;
+              git checkout main;
+              git pull origin main
+            "
